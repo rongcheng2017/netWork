@@ -1,15 +1,15 @@
 apply plugin: 'com.android.library'
-android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
 
-    publishNonDefault true
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+    resourcePrefix "asce1885__"
+
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 23
+        minSdkVersion 15
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -35,3 +35,31 @@ dependencies {
     debugCompile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
 */
 }
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'netWork'
+
+    publishedGroupId = 'com.rongcheng'
+    libraryName = 'network'
+    artifact = 'network'
+
+    libraryDescription = ''
+    siteUrl = 'https://github.com/rongcheng2017/netWork'    // 项目主页
+    gitUrl = 'https://github.com/rongcheng2017/netWork.git' // 项目的git地址
+
+    libraryVersion = '1.0'
+
+    developerId = 'rongcheng'
+    developerName = 'rongcheng'
+    developerEmail = 'fengrongcheng2017@outlook.com'
+
+    licenseName = 'The Apache Software License, Version 2.0' // 开源协议名称
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt' // 协议地址
+    allLicenses = ["Apache-2.0"]
+}
+
+
+apply from: "install.gradle"
+apply from: "bintray.gradle"
+
+

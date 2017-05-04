@@ -1,0 +1,50 @@
+apply plugin: 'com.jfrog.bintray'
+
+//发布函数库构件时指定的版本号
+version = libraryVersion
+
+//生成Source Jar的任务
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+//生成SourceDoc的任务
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+//生成JavaDoc.jar的任务
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+//指定归档的构件
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+
+}
+//上传到Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    // 读取配置文件中的用户名和key
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo        // 你在bintray上创建的库的名称
+        name = bintrayName               // 在jcenter中的项目名称
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+
+        }
+    }
+}
+
